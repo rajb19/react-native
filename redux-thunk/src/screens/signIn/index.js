@@ -13,6 +13,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import SafeAreaView from 'react-native-safe-area-view';
 import Toast from 'react-native-simple-toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import { View, Text, TextInput } from 'react-native';
 
 // custom imports
@@ -33,7 +34,16 @@ class SignIn extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+
+    GoogleSignin.configure({
+      // scopes: ["https://www.googleapis.com/auth/userinfo.profile"],
+      // webClientId: "912891888047-ec1nf32boo0eih1gmre0l9pi889s6ctn.apps.googleusercontent.com",
+      // offlineAccess: true,
+    })
+
+    const getCurrentUser = await GoogleSignin.getCurrentUser();
+    console.log("componentDidMount@isSignedIn: ", getCurrentUser);
     const focus = this.props.navigation.addListener("focus", () => {
       this.setState({ email: '', password: '', passwordError: '', emailError: '', });
     })
@@ -58,7 +68,26 @@ class SignIn extends React.Component {
         this.setState({ password: '' });
       } else {
         Toast.show(this.props.success);
-        // this.props.navigation.navigate(Routes.HOME)
+      }
+    }
+  };
+
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      this.setState({ userInfo });
+      console.log("signIn@userInfo: ", userInfo);
+    } catch (error) {
+      console.log("signIn@error: ", error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
       }
     }
   };
@@ -86,19 +115,10 @@ class SignIn extends React.Component {
             <View style={{ flex: 3 }}>
               {/* textinput container for email */}
               <View>
-                <TextInput
-                  ref={input => {
-                    this.email = input;
-                  }}
-                  onChangeText={text => {
-                    this.setState({ email: text });
-                  }}
-                  onSubmitEditing={() => {
-                    this.password.focus();
-                  }}
-                  onFocus={() => {
-                    this.setState({ isFocus: 'email' });
-                  }}
+                <TextInput ref={input => { this.email = input; }}
+                  onChangeText={text => { this.setState({ email: text }) }}
+                  onSubmitEditing={() => { this.password.focus(); }}
+                  onFocus={() => { this.setState({ isFocus: 'email' }) }}
                   keyboardType={'email-address'}
                   autoCapitalize={'none'}
                   returnKeyType={'next'}
@@ -106,24 +126,17 @@ class SignIn extends React.Component {
                   placeholder={'email'}
                   placeholderTextColor={'grey'}
                   style={[styles.textInput, { borderBottomColor: emailError ? 'red' : 'black' }]}
-                  value={email}
-                />
+                  value={email} />
                 {emailError ? this.renderError(emailError) : null}
               </View>
 
               {/* textinput container for password */}
               <View style={styles.passwordContainer}>
                 <TextInput
-                  ref={input => {
-                    this.password = input;
-                  }}
-                  onChangeText={text => {
-                    this.setState({ password: text });
-                  }}
+                  ref={input => { this.password = input; }}
+                  onChangeText={text => { this.setState({ password: text }) }}
                   onSubmitEditing={this.handleLoginAction}
-                  onFocus={() => {
-                    this.setState({ isFocus: 'password' });
-                  }}
+                  onFocus={() => { this.setState({ isFocus: 'password' }) }}
                   returnKeyType={'done'}
                   autoCapitalize={'none'}
                   placeholder={'password'}
@@ -131,13 +144,12 @@ class SignIn extends React.Component {
                   autoCorrect={false}
                   secureTextEntry={true}
                   style={[styles.textInput, { borderBottomColor: passwordError ? 'red' : 'black' }]}
-                  value={password}
-                />
+                  value={password} />
                 {passwordError ? this.renderError(passwordError) : null}
               </View>
 
 
-              <View style={styles.forgotLinkContainer} >
+              <View style={styles.forgotLinkContainer}>
                 <TouchableOpacity
                   activeOpacity={0.3}
                   onPress={() => { this.props.navigation.navigate(Routes.FORGOTPASSWORD) }}
@@ -152,6 +164,14 @@ class SignIn extends React.Component {
                 onPress={this.handleLoginAction}>
                 <Text style={styles.loginText}>{Constants.LOGIN}</Text>
               </TouchableOpacity>
+
+              <View style={{ width: '70%', alignSelf: 'center' }}>
+                <GoogleSigninButton
+                  style={{ width: '100%', height: 48 }}
+                  size={GoogleSigninButton.Size.Wide}
+                  color={GoogleSigninButton.Color.Dark}
+                  onPress={this.signIn} />
+              </View>
 
               <View style={styles.signUpLinkContainer}>
                 <View>
