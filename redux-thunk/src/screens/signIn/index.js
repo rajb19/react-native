@@ -14,6 +14,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 import Toast from 'react-native-simple-toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { LoginButton, AccessToken, ShareDialog } from 'react-native-fbsdk';
 import { View, Text, TextInput } from 'react-native';
 
 // custom imports
@@ -36,6 +37,8 @@ class SignIn extends React.Component {
 
   async componentDidMount() {
 
+    // this.shareLinkWithShareDialog()
+
     GoogleSignin.configure({
       // scopes: ["https://www.googleapis.com/auth/userinfo.profile"],
       // webClientId: "912891888047-ec1nf32boo0eih1gmre0l9pi889s6ctn.apps.googleusercontent.com",
@@ -48,6 +51,37 @@ class SignIn extends React.Component {
       this.setState({ email: '', password: '', passwordError: '', emailError: '', });
     })
   }
+
+  // share link with dialog 
+  shareLinkWithShareDialog = () => {
+
+    const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "https://facebook.com",
+      contentDescription: 'Wow, check out this great site!',
+    };
+
+    ShareDialog.canShow(shareLinkContent).then(
+      function (canShow) {
+        if (canShow) {
+          return ShareDialog.show(shareLinkContent);
+        }
+      }
+    ).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log('Share cancelled');
+        } else {
+          console.log('Share success with postId: '
+            + result.postId);
+        }
+      },
+      function (error) {
+        console.log('Share fail with error: ' + error);
+      }
+    );
+  }
+
 
   handleLoginAction = async () => {
     const { email, password } = this.state;
@@ -72,7 +106,7 @@ class SignIn extends React.Component {
     }
   };
 
-  signIn = async () => {
+  handleGoogleSigin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -91,6 +125,19 @@ class SignIn extends React.Component {
       }
     }
   };
+
+  getFacebookProfile = (accessToken) => {
+    console.log("getFacebookProfile: ", accessToken);
+    fetch('https://graph.facebook.com/v2.5/me?fields=id,first_name,last_name,name,picture.type(large),email,gender,birthday,hometown,friends&access_token=' + accessToken)
+      // fetch('https://graph.facebook.com/1510362322477671?fields=birthday,email,hometown&access_token=' + accessToken)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("result: ", result);
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+      })
+  }
 
   renderError = (error) => {
     return (
@@ -148,13 +195,23 @@ class SignIn extends React.Component {
                 {passwordError ? this.renderError(passwordError) : null}
               </View>
 
-
               <View style={styles.forgotLinkContainer}>
                 <TouchableOpacity
                   activeOpacity={0.3}
                   onPress={() => { this.props.navigation.navigate(Routes.FORGOTPASSWORD) }}
                   style={styles.touchbleArea} >
                   <Text style={{ textDecorationLine: "underline" }}>Forgot Password?</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.signUpLinkContainer}>
+                <View>
+                  <Text>New Here?</Text>
+                </View>
+                <TouchableOpacity
+                  activeOpacity={0.3}
+                  onPress={() => { this.props.navigation.navigate(Routes.SIGNUP) }}>
+                  <Text style={styles.signUpLink}>Sign Up Instead</Text>
                 </TouchableOpacity>
               </View>
 
@@ -165,23 +222,38 @@ class SignIn extends React.Component {
                 <Text style={styles.loginText}>{Constants.LOGIN}</Text>
               </TouchableOpacity>
 
-              <View style={{ width: '70%', alignSelf: 'center' }}>
+              <View style={{ width: '100%', alignSelf: 'center', alignItems: 'center', flexDirection: 'row' }}>
+
+                {/* google sigin in button */}
                 <GoogleSigninButton
-                  style={{ width: '100%', height: 48 }}
+                  style={{ width: '55%', height: 48 }}
                   size={GoogleSigninButton.Size.Wide}
                   color={GoogleSigninButton.Color.Dark}
-                  onPress={this.signIn} />
-              </View>
+                  onPress={this.handleGoogleSigin} />
 
-              <View style={styles.signUpLinkContainer}>
-                <View>
-                  <Text>New Here?</Text>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.3}
-                  onPress={() => { this.props.navigation.navigate(Routes.SIGNUP) }} >
-                  <Text style={styles.signUpLink}>Sign Up Instead</Text>
-                </TouchableOpacity>
+                {/* facebook sigin button */}
+                <LoginButton
+                  style={{ width: '44%', height: 40 }}
+                  publishPermissions={['publish_actions']}
+                  permissions={['public_profile,email,user_hometown,user_birthday,']}
+                  onLoginFinished={
+                    (error, result) => {
+                      console.log("result: ", result);
+                      if (error) {
+                        console.log("login has error: " + result.error);
+                      } else if (result.isCancelled) {
+                        console.log("login is cancelled.");
+                      } else {
+                        AccessToken.getCurrentAccessToken().then(
+                          (data) => {
+                            console.log("accessToken: ", data.accessToken.toString());
+                            this.getFacebookProfile(data.accessToken.toString());
+                          }
+                        )
+                      }
+                    }
+                  }
+                  onLogoutFinished={() => console.log("logout.")} />
               </View>
 
             </View>

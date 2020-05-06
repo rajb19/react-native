@@ -5632,6 +5632,11 @@ react-native-autocomplete-search@^1.0.8:
     "@babel/preset-flow" "^7.0.0"
     lodash "^4.17.11"
 
+react-native-fbsdk@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.2.tgz#4264903add869d05b84ef55ade9ff720c2957781"
+  integrity sha512-Sp+oja868QVsB5vpEFbwZkEcCJOSBuZgh7UGJzUhaoTCs/zwSUHA6b4QichM7GiTxtQyKfT/F31DtvLj2N/qAQ==
+
 react-native-geocoding@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.4.0.tgz#e22c97500bfccc25273499ab3af87c27ac6ede8f"

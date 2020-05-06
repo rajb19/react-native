@@ -23,10 +23,15 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+  didFinishLaunchingWithOptions:launchOptions];
+  
 #if DEBUG
   InitializeFlipper(application);
 #endif
@@ -53,6 +58,19 @@ static void InitializeFlipper(UIApplication *application) {
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+    openURL:url
+    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+  ];
+  // Add any custom logic here.
+  return handled;
 }
 
 @end

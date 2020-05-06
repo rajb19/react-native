@@ -21,6 +21,8 @@
 		6835981BD67C0019C77D8A43 /* libPods-AwesomeProject-AwesomeProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2087DAC618E811BDAD747463 /* libPods-AwesomeProject-AwesomeProjectTests.a */; };
 		C29BC5757ECE1FFFA2DDD2A1 /* libPods-AwesomeProject-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95081B982CB46EC1FF96693A /* libPods-AwesomeProject-tvOS.a */; };
 		E790240E24604A72001F22EA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E790240D24604A72001F22EA /* GoogleService-Info.plist */; };
+		E797D23C246291740041315B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E797D23B246291740041315B /* FBSDKCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		E797D23E2462917B0041315B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E797D23D2462917B0041315B /* FBSDKLoginKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		B51FB1B344E4263284DF279D /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
 		E178C2C560A9AC5ED375E78A /* Pods-AwesomeProject-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-tvOS/Pods-AwesomeProject-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E790240D24604A72001F22EA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E797D23B246291740041315B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/Carthage/Build/iOS/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		E797D23D2462917B0041315B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/Carthage/Build/iOS/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		E8AC5DC5B817FDC2AF5052FC /* Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		EADF2A6A0505471DF194B19C /* Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -85,6 +89,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F4BCAE585AFDB18D5DE6490 /* libPods-AwesomeProject.a in Frameworks */,
+				E797D23C246291740041315B /* FBSDKCoreKit.framework in Frameworks */,
+				E797D23E2462917B0041315B /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +163,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E797D23D2462917B0041315B /* FBSDKLoginKit.framework */,
+				E797D23B246291740041315B /* FBSDKCoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				B439030F0D2F3A8C4D8F52DE /* libPods-AwesomeProject.a */,
@@ -445,10 +453,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,10 +473,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,6 +684,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
@@ -698,6 +714,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AwesomeProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (

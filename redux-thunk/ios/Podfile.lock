@@ -16,6 +16,20 @@ PODS:
     - React-Core (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/turbomodule/core (= 0.62.2)
+  - FBSDKCoreKit (5.8.0):
+    - FBSDKCoreKit/Basics (= 5.8.0)
+    - FBSDKCoreKit/Core (= 5.8.0)
+  - FBSDKCoreKit/Basics (5.8.0)
+  - FBSDKCoreKit/Core (5.8.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.8.0):
+    - FBSDKLoginKit/Login (= 5.8.0)
+  - FBSDKLoginKit/Login (5.8.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FBSDKShareKit (5.8.0):
+    - FBSDKShareKit/Share (= 5.8.0)
+  - FBSDKShareKit/Share (5.8.0):
+    - FBSDKCoreKit (~> 5.0)
   - Flipper (0.33.1):
     - Flipper-Folly (~> 2.1)
     - Flipper-RSocket (~> 1.0)
@@ -250,6 +264,20 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
   - React-jsinspector (0.62.2)
+  - react-native-fbsdk (1.1.2):
+    - React
+    - react-native-fbsdk/Core (= 1.1.2)
+    - react-native-fbsdk/Login (= 1.1.2)
+    - react-native-fbsdk/Share (= 1.1.2)
+  - react-native-fbsdk/Core (1.1.2):
+    - FBSDKCoreKit (= 5.8)
+    - React
+  - react-native-fbsdk/Login (1.1.2):
+    - FBSDKLoginKit (= 5.8)
+    - React
+  - react-native-fbsdk/Share (1.1.2):
+    - FBSDKShareKit (= 5.8)
+    - React
   - react-native-geolocation (2.0.2):
     - React
   - react-native-maps (0.27.1):
@@ -372,6 +400,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -401,6 +430,9 @@ SPEC REPOS:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -444,6 +476,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-fbsdk:
+    :path: "../node_modules/react-native-fbsdk"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-maps:
@@ -495,6 +529,9 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
+  FBSDKCoreKit: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
+  FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
+  FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
   Flipper: 6c1f484f9a88d30ab3e272800d53688439e50f69
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -517,6 +554,7 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
+  react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
@@ -541,6 +579,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: aec9030c3ead2b3bdda334015579580413ed9a8e
+PODFILE CHECKSUM: 9bcf23f6db5867e84965bf25d979e57361275ae8
 
 COCOAPODS: 1.9.1

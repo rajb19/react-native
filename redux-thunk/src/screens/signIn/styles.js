@@ -40,7 +40,7 @@ export default StyleSheet.create({
     marginTop: 20,
     height: 40,
     borderRadius: 6,
-    width: '70%',
+    width: '100%',
     alignSelf: 'center'
   },
   forgotLinkContainer: {
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     marginTop: 6
   },
   signUpLinkContainer: {
-    marginTop: 60,
+    marginTop: 10,
     justifyContent: 'center',
     flexDirection: 'row'
   },
