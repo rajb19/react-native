@@ -1,10 +1,8 @@
-import React from 'react';
-import AppNavigator from './src/navigator';
-import PushNotification from "react-native-push-notification";
+import React, { useEffect } from 'react'
+import PushNotification from 'react-native-push-notification'
 
-class App extends React.Component {
-
-  componentDidMount() {
+const RemotePushController = () => {
+  useEffect(() => {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function (token) {
@@ -12,7 +10,7 @@ class App extends React.Component {
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification: function (notification) {
-        console.log('NOTIFICATION ==>', notification)
+        console.log('REMOTE NOTIFICATION ==>', notification)
         // process the notification here
       },
       // Android only: GCM or FCM Sender ID
@@ -20,13 +18,8 @@ class App extends React.Component {
       popInitialNotification: true,
       requestPermissions: true
     })
-  }
+  }, [])
+  return null
+}
 
-  render() {
-    return (
-      <AppNavigator />
-    );
-  }
-};
-
-export default App;
+export default RemotePushController
