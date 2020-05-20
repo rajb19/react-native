@@ -36,7 +36,6 @@ class MobileVerification extends React.Component {
     if (validatePhoneNumber(mobile)) {
       await auth().signInWithPhoneNumber(mobile)
         .then((confirmation) => {
-          console.log('confirmation : ', confirmation)
           Toast.show("code has been sent")
           this.setState({ confirmation })
         }).catch((e) => {

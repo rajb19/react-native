@@ -39,7 +39,6 @@ class SignUp extends React.Component {
       await auth()
         .createUserWithEmailAndPassword(email, password)
         .then((res) => {
-          console.log('response : ', res)
           Toast.show('Registration Sucessfully!');
           this.setState({ email: '', password: '', loading: false })
         }).catch(error => {

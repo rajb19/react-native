@@ -22,7 +22,7 @@ class AppNavigator extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={Routes.LAOCALNOTIFICATION}>
+        <Stack.Navigator initialRouteName={Routes.REMOTENOTIFICATION}>
           <Stack.Screen name={Routes.HOME} component={HomeScreen} />
           <Stack.Screen name={Routes.SIGNIN} component={SignInScreen} />
           <Stack.Screen name={Routes.SIGNUP} component={SignUpScreen} />

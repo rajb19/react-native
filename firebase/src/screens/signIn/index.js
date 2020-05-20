@@ -42,7 +42,6 @@ class SignIn extends React.Component {
       this.setState({ loading: true })
       await auth().signInWithEmailAndPassword(email, password)
         .then((res) => {
-          console.log('res : ', res)
           Toast.show('SignIn Sucessfully');
           this.setState({ loading: false })
           this.props.navigation.navigate(routes.HOME);
