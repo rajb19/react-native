@@ -6,6 +6,7 @@ import styles from "./styles";
 import * as routes from '../../navigator/routes';
 
 class Home extends React.Component {
+
   render() {
     return (
       <SafeAreaView style={styles.safeAreaView}>
