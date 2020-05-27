@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, TouchableOpacity, View, Text, Button } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View, Text, Button, Image, Platform } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
 import analytics from '@react-native-firebase/analytics';
 
@@ -38,6 +38,16 @@ class Home extends React.Component {
   }
 
   render() {
+
+    const iconEdit = Platform.select({
+      ios: { uri: 'edit' },
+      android: { uri: 'asset:/images/edit.png' }
+    })
+    const iconDelete = Platform.select({
+      ios: { uri: 'delete' },
+      android: { uri: 'asset:/images/delete.png' }
+    })
+
     return (
       <SafeAreaView style={styles.safeAreaView}>
         <View style={{ marginVertical: 20, alignItems: 'center' }}>
@@ -56,8 +66,11 @@ class Home extends React.Component {
               event_title: 'First Event',
               event_description: 'My First Event',
             })
-          }
-        />
+          } />
+        <View style={{ flexDirection: 'row', alignSelf: 'center', marginVertical: 20, }} >
+          <Image source={iconEdit} style={{ marginHorizontal: 20, height: 20, width: 20 }} />
+          <Image source={iconDelete} style={{ marginHorizontal: 20, height: 20, width: 20 }} />
+        </View>
       </SafeAreaView>
     );
   }
