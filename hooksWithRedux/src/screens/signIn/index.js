@@ -21,15 +21,6 @@ import {LoginAction} from '../../redux/actions';
 import * as Routes from '../../navigator/routes';
 import styles from './styles';
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  console.log('usePrevious ref', ref.current);
-  return ref.current;
-}
-
 const SignIn = () => {
   let emailRef = useRef(null);
   let passwordRef = useRef(null);
@@ -49,7 +40,6 @@ const SignIn = () => {
     success: state.auth.success,
     error: state.auth.error,
   }));
-  const prevState = usePrevious({users, success, error});
 
   useEffect(() => {
     const focus = navigation.addListener('focus', () => {

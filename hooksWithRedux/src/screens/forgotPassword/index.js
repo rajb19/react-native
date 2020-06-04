@@ -1,18 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import SafeAreaView from 'react-native-safe-area-view';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import {find} from 'lodash';
 
@@ -23,9 +14,8 @@ import {Constants} from '../../common/constants';
 import * as Routes from '../../navigator/routes';
 import styles from './styles';
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const dispatch = useDispatch();
-  const navigtation = useNavigation();
 
   const {users, error, success} = useSelector((state) => ({
     users: state.auth.users,
@@ -40,6 +30,18 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (showToast && error !== '') Toast.show(error);
+
+    if (showToast && success !== '') {
+      Toast.show(success);
+      setTimeout(() => {
+        setIsShowModal(true);
+      }, 1000);
+    }
+  }, [showToast]);
 
   handleSendAction = async () => {
     if (!checkEmpty(email)) {
@@ -49,14 +51,7 @@ const ForgotPassword = () => {
     } else {
       setEmailError('');
       await dispatch(ForgotPasswordAction(email, users));
-      if (error !== '') {
-        Toast.show(error);
-      } else if (success !== '') {
-        Toast.show(success);
-        setTimeout(() => {
-          setIsShowModal(true);
-        }, 1000);
-      }
+      setShowToast(true);
     }
   };
 
@@ -72,13 +67,9 @@ const ForgotPassword = () => {
       setPasswordError('');
       setConfirmPasswordError('');
       await dispatch(ResetPasswordAction(password, response.id));
-      if (error !== '') {
-        Toast.show(success);
-      } else if (success !== '') {
-        setIsShowModal(false);
-        Toast.show(success);
-        navigation.navigate(Routes.SIGNIN);
-      }
+      setShowToast(true);
+      setIsShowModal(false);
+      // props.navigation.navigate(Routes.SIGNIN);
     }
   };
 

@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import SafeAreaView from 'react-native-safe-area-view';
 import MapView from 'react-native-maps';
+import Toast from 'react-native-simple-toast';
 
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
@@ -13,6 +14,7 @@ import {Icons} from '../../common/constants';
 import styles from './styles';
 
 const Home = (props) => {
+  const [showToast, setShowToast] = useState(false);
   const [search, setSearch] = useState('search');
   const [region, setRegion] = useState({
     latitude: 0,
@@ -22,6 +24,7 @@ const Home = (props) => {
   });
 
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   props.navigation.setOptions({
     headerLeft: () => (
@@ -69,8 +72,13 @@ const Home = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (auth.success) Toast.show(auth.success);
+  }, [showToast]);
+
   logout = async () => {
     await dispatch(LogoutAction());
+    setShowToast(true);
   };
 
   return (

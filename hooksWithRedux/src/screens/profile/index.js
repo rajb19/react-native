@@ -30,6 +30,7 @@ const Profile = (props) => {
   const [lastname, setLastname] = useState('');
   const [firstnameError, setFirstnameError] = useState('');
   const [lastnameError, setLastnameError] = useState('');
+  const [showToast, setShowToast] = useState('');
 
   const dispatch = useDispatch();
 
@@ -39,12 +40,11 @@ const Profile = (props) => {
   }));
 
   useEffect(() => {
-    console.log('useEffect props: ', props);
-    console.log('useEffect user: ', user);
     setFirstname(user.firstname);
     setLastname(user.lastname);
     setEmail(user.email);
-  }, []);
+    if (showToast && success !== '') Toast.show(success);
+  }, [showToast]);
 
   handleUpdateAction = async () => {
     if (!checkEmpty(firstname)) {
@@ -70,7 +70,7 @@ const Profile = (props) => {
       await dispatch(
         UpdateProfileAction(firstname, lastname, email, user.password, user.id),
       );
-      if (success !== '') Toast.show(success);
+      setShowToast(true);
     }
   };
 
