@@ -1,17 +1,11 @@
 import * as ActionTypes from './actionTypes';
 import {Constants} from '../../common/constants';
 import {find, isEmpty} from 'lodash';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /**
  *  actions
  */
-export const isLoading = (data) => {
-  return {
-    type: ActionTypes.ISLOADING,
-    payload: data,
-  };
-};
-
 export const successMessage = (data) => {
   return {
     type: ActionTypes.SUCCESS,
@@ -78,38 +72,28 @@ export const resetPassword = (data) => {
 /**
  *  action creators
  */
-export const IsLoadingAction = (data) => async (dispatch) => {
-  dispatch(isLoading(data));
-};
-
 export const LoginAction = (dispatch, email, password, users) => {
-  dispatch(isLoading(true));
   const response = find(users, {email: email, password: password});
   if (!isEmpty(response)) {
     dispatch(login(response));
     dispatch(successMessage(Constants.LOGINSUCCESS));
-    dispatch(isLoading(false));
   } else {
-    dispatch(isLoading(false));
     dispatch(errorMessage(Constants.INVALIDUSERPASSWORD));
   }
 };
 
 export const LogoutAction = (dispatch) => {
-  dispatch(isLoading(true));
   dispatch(logout());
   dispatch(successMessage(Constants.LOGOUTSUCCESS));
-  dispatch(isLoading(false));
 };
 
-export const RegisterAction = (
+export const RegisterAction = async (
   dispatch,
   firstname,
   lastname,
   email,
   password,
 ) => {
-  dispatch(isLoading(true));
   const data = {
     id: Math.floor(Math.random() * 1001),
     firstname,
@@ -119,27 +103,21 @@ export const RegisterAction = (
   };
   dispatch(register(data));
   dispatch(successMessage(Constants.REGISTRATIONSUCESS));
-  dispatch(isLoading(false));
 };
 
 export const ForgotPasswordAction = (dispatch, email, users) => {
-  dispatch(isLoading(true));
   const response = find(users, {email: email});
   if (!isEmpty(response)) {
     dispatch(successMessage(Constants.SENDLINKSUCCESS));
-    dispatch(isLoading(false));
   } else {
-    dispatch(isLoading(false));
     dispatch(errorMessage(Constants.EMIALNOTEXISTS));
   }
 };
 
 export const ResetPasswordAction = (dispatch, password, userId) => {
-  dispatch(isLoading(true));
   const data = {id: userId, password};
   dispatch(resetPassword(data));
   dispatch(successMessage(Constants.PASSWORDCHANGESUCESS));
-  dispatch(isLoading(false));
 };
 
 export const UpdateProfileAction = (
@@ -151,10 +129,9 @@ export const UpdateProfileAction = (
   userId,
 ) => {
   console.log('UpdateProfileAction: ');
-  dispatch(isLoading(true));
+
   const data = {id: userId, firstname, lastname, email, password};
   dispatch(updateProfile(data));
   dispatch(updateLoggedInUser(data));
   dispatch(successMessage(Constants.PROFILEUPDATESUCESS));
-  dispatch(isLoading(false));
 };
